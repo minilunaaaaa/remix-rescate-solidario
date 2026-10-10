@@ -1,0 +1,71 @@
+name: Build APK Android
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar Capacitor
+        run: |
+          npm install @capacitor/core @capacitor/android
+          npm install --save-dev @capacitor/cli
+
+      - name: Compilar la web
+        run: npm run build
+
+      - name: Inicializar proyecto Android
+        run: npx cap init "Rescate Solidario" "com.rescatesolidario.app" --web-dir=dist
+
+      - name: Agregar Android
+        run: npx cap add android
+
+      - name: Permisos (GPS + cámara)
+        run: |
+          python3 - <<'EOF'
+          m = open('android/app/src/main/AndroidManifest.xml').read()
+          perms = [
+            'android.permission.ACCESS_FINE_LOCATION',
+            'android.permission.ACCESS_COARSE_LOCATION',
+            'android.permission.CAMERA',
+          ]
+          base = '    <uses-permission android:name="android.permission.INTERNET" />'
+          for p in perms:
+              line = '    <uses-permission android:name="%s" />' % p
+              if line not in m:
+                  m = m.replace(base, base + '\n' + line)
+          open('android/app/src/main/AndroidManifest.xml', 'w').write(m)
+          EOF
+
+      - name: Compilar APK
+        run: cd android && ./gradlew assembleDebug --no-daemon
+
+      - name: Subir APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-rescate-solidario
+          path: android/app/build/outputs/apk/debug/app-debug.apk
