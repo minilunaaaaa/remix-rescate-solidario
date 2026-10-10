@@ -1,0 +1,340 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+
+  /* extra-small label size (min legible for tags/meta) */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+
+  /* Primary — Produce green */
+  --color-brand-50: #eef6ec;
+  --color-brand-100: #d7ecd1;
+  --color-brand-200: #b0d9a6;
+  --color-brand-300: #83c176;
+  --color-brand-400: #58a24a;
+  --color-brand-500: #3a8730;
+  --color-brand-600: #2c6b25;
+  --color-brand-700: #23551e;
+  --color-brand-800: #1c441a;
+  --color-brand-900: #163615;
+
+  /* Accent — Sunflower / marigold */
+  --color-accent-50: #fdf6e6;
+  --color-accent-100: #faebc2;
+  --color-accent-200: #f4d480;
+  --color-accent-300: #ecb93f;
+  --color-accent-400: #e0a11c;
+  --color-accent-500: #c4860f;
+  --color-accent-600: #9d6807;
+  --color-accent-700: #7d5206;
+  --color-accent-800: #613f07;
+  --color-accent-900: #4a3006;
+
+  /* Warm — pickup urgency (amber family) */
+  --color-warm-50: #fef7e6;
+  --color-warm-100: #fcecc4;
+  --color-warm-200: #f8d888;
+  --color-warm-300: #f2c04a;
+  --color-warm-400: #e0a11c;
+  --color-warm-500: #b8790c;
+  --color-warm-600: #8a5f07;
+  --color-warm-700: #6b4a08;
+
+  /* Success — unified with brand green */
+  --color-success-50: #eef6ec;
+  --color-success-100: #d7ecd1;
+  --color-success-200: #b0d9a6;
+  --color-success-300: #83c176;
+  --color-success-400: #58a24a;
+  --color-success-500: #3a8730;
+  --color-success-600: #2c6b25;
+  --color-success-700: #23551e;
+  --color-success-800: #1c441a;
+  --color-success-900: #163615;
+
+  /* Destructive — tomato */
+  --color-destructive-500: #d63427;
+  --color-destructive-600: #b02418;
+
+  /* Surfaces */
+  --color-paper: #f6f4ee;
+  --color-ink: #141914;
+  --color-card: #ffffff;
+}
+
+:root {
+  --color-line: #e7e3d8;
+  --color-card-solid: #ffffff;
+  --color-paper-solid: #f6f4ee;
+}
+
+.dark {
+  --color-line: #2a332c;
+  --color-card-solid: #1c211d;
+  --color-paper-solid: #141914;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  min-height: 100vh;
+}
+
+.dark body {
+  background: var(--color-ink);
+  color: #e7ece4;
+}
+
+/* Display type gets the characterful face */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========== MOTION (intentional, minimal) ========== */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.8); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-slide-up { animation: rise 0.32s cubic-bezier(0.2, 0, 0, 1) both; }
+.animate-slide-down { animation: rise 0.32s cubic-bezier(0.2, 0, 0, 1) both; }
+.animate-fade-in { animation: fadeIn 0.22s ease-out both; }
+.animate-scale-in { animation: scaleIn 0.2s cubic-bezier(0.2, 0, 0, 1) both; }
+.animate-spin-slow { animation: spin-slow 6s linear infinite; }
+
+/* Live-status dot keeps a gentle pulse (conveys "happening now") */
+.animate-pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
+
+/* Quieted effects — kept as classes so markup stays intact */
+.animate-float,
+.animate-pulse-glow,
+.animate-bounce-subtle,
+.animate-gradient { animation: none; }
+
+.animate-shimmer,
+.shimmer {
+  background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.07) 50%, rgba(0,0,0,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+.dark .animate-shimmer,
+.dark .shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+}
+
+.stagger-1 { animation-delay: 0.03s; }
+.stagger-2 { animation-delay: 0.06s; }
+.stagger-3 { animation-delay: 0.09s; }
+.stagger-4 { animation-delay: 0.12s; }
+.stagger-5 { animation-delay: 0.15s; }
+.stagger-6 { animation-delay: 0.18s; }
+
+/* ========== SURFACES (was glassmorphism — now solid + hairline) ========== */
+
+.glass,
+.glass-strong {
+  background: var(--color-card-solid);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid var(--color-line);
+}
+
+/* ========== INTERACTION ========== */
+
+.hover-lift {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+@media (hover: hover) {
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -16px rgba(28, 40, 30, 0.35);
+  }
+}
+
+.hover-scale {
+  transition: transform 0.16s ease;
+}
+
+@media (hover: hover) {
+  .hover-scale:hover { transform: scale(1.01); }
+}
+
+.hover-scale:active { transform: scale(0.99); }
+
+/* ripple retired */
+.ripple-container { position: relative; }
+
+/* gradient-text retired -> solid ink */
+.gradient-text {
+  color: var(--color-brand-600);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  background-clip: border-box;
+}
+
+/* gradient-border retired -> plain surface */
+.gradient-border { background: var(--color-card-solid); }
+.gradient-border::before { content: none; }
+
+/* glow retired */
+.glow-brand,
+.glow-accent { box-shadow: none; }
+
+/* ========== SIGNATURE: pickup ticket ========== */
+
+.ticket {
+  position: relative;
+  background: var(--color-paper-solid);
+  border: 1px solid var(--color-line);
+}
+
+.ticket::before,
+.ticket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-card-solid);
+  transform: translateY(-50%);
+}
+
+.ticket::before { left: -9px; }
+.ticket::after { right: -9px; }
+
+.ticket-perf {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-line) 0,
+    var(--color-line) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  height: 1px;
+}
+
+/* ========== TAGS (price-tag motif) ========== */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.4rem 0.4rem 0.4rem 0.15rem;
+  font-size: var(--text-2xs);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  background: var(--color-brand-600);
+  color: #fff;
+}
+
+/* ========== FOCUS ========== */
+
+.focus-ring { outline: none; }
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-brand-600);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ========== SCROLLBAR ========== */
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd0c4; border-radius: 3px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #a7ad9d; }
+
+/* ========== UTILITIES ========== */
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tap-target { min-height: 44px; min-width: 44px; }
+
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ========== REDUCED MOTION ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-pulse-dot,
+  .animate-shimmer,
+  .shimmer,
+  .animate-spin-slow {
+    animation: none !important;
+  }
+}

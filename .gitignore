@@ -1,0 +1,20 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Capacitor / Android (el proyecto nativo se genera en el CI de GitHub Actions)
+android/
+ios/
+*.apk
+*.aab
+
+# Editores y deploys
+.vscode/
+.idea/
+.vercel/
+.netlify/
