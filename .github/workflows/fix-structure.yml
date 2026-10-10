@@ -1,0 +1,26 @@
+name: Fix estructura
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mover archivos a src/
+        run: |
+          mkdir -p src/assets/images src/components src/data src/hooks src/utils
+          git mv App.tsx main.tsx index.css types.ts vite-env.d.ts src/
+          git mv rescate_hero_banner_1785165587420.jpg rescate_solidario_logo_1786146691474.jpg src/assets/images/
+          git mv AppNavbar.tsx AuthModal.tsx ChileMapView.tsx Hero.tsx LegalModal.tsx \
+                 NeedDeclarationModal.tsx NeighborDashboard.tsx SettingsModal.tsx StoreDashboard.tsx src/components/
+          git mv mockData.ts src/data/
+          git mv useGeolocation.ts src/hooks/
+          git mv imageUtils.ts timeUtils.ts src/utils/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Mueve archivos a src/ (estructura correcta)"
+          git push
